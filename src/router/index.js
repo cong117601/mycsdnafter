@@ -1,27 +1,73 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
-  const routes = [
+const Blogs = () => import("views/blogs/Blogs");
+const BlogIssue = () => import("views/blogs/issue/BlogIssue");
+const BlogLists = () => import("views/blogs/lists/BlogLists");
+
+const Cat = () => import("views/cat/Cat");
+const CatIssue = () => import("views/cat/issue/CatIssue");
+const CatLists = () => import("views/cat/lists/CatLists");
+
+const Tag = () => import("views/tag/Tag");
+const Title = () => import("views/title/Title");
+
+const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: "",
+    redirect: "/blogs",
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+    path: "/blogs",
+    component: Blogs,
+    children: [
+      {
+        path: "",
+        redirect: "bloglists",
+      },
+      {
+        path: "blogissue",
+        component: BlogIssue,
+      },
+      {
+        path: "bloglists",
+        component: BlogLists,
+      },
+    ],
+  },
+  {
+    path: "/cat",
+    component: Cat,
+    children: [
+      {
+        path: "",
+        redirect: "catlists",
+      },
+      {
+        path: "catissue",
+        component: CatIssue,
+      },
+      {
+        path: "catlists",
+        component: CatLists,
+      },
+    ],
+  },
+  {
+    path: "/tag",
+    component: Tag,
+  },
+  {
+    path: "/title",
+    component: Title,
+  },
+];
 
 const router = new VueRouter({
-  routes
-})
+  routes,
+  mode: "history",
+});
 
-export default router
+export default router;
